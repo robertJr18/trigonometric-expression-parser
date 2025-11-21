@@ -6,10 +6,7 @@ import com.unimag.parser.astNodes.*;
 
 import java.util.List;
 
-/**
-  Parser recursivo descendente para expresiones trigonométricas
-  Implementa la siguiente gramática LL(1) con precedencia correcta:
-
+/*
   E  → T E'
   E' → + T E' | - T E' | ε
   T  → F T'
@@ -18,7 +15,6 @@ import java.util.List;
   F' → ^ F | ε
   U  → - U | P
   P  → NUM | ID | sin(E) | cos(E) | tan(E) | (E)
-
  */
 public class Parser {
     private final List<Token> tokens;
@@ -123,7 +119,6 @@ public class Parser {
     /**
       U → - U | F
       Parsea operador unario (negación)
-      Precedencia: menor que potencia, mayor que mult/div
      */
     private Node parseUnary() {
         if (check(TokenType.MINUS)) {
@@ -196,22 +191,22 @@ public class Parser {
             String funcName = currentToken.value();
             advance();
 
-            expect(TokenType.L_PAREN,
+            expect(TokenType.L_PAR,
                 String.format("se esperaba '(' después de función '%s'", funcName));
 
             Node argument = parseExpression();
 
-            expect(TokenType.R_PAREN,
+            expect(TokenType.R_PAR,
                 String.format("se esperaba ')' para cerrar función '%s'", funcName));
 
             return new FunctionNode(funcName, argument);
         }
 
 
-        if (check(TokenType.L_PAREN)) {
+        if (check(TokenType.L_PAR)) {
             advance();
             Node expr = parseExpression();
-            expect(TokenType.R_PAREN, "se esperaba ')' para cerrar paréntesis");
+            expect(TokenType.R_PAR, "se esperaba ')' para cerrar paréntesis");
             return expr;
         }
 

@@ -1,5 +1,5 @@
 package com.unimag.lexer;
 
 public enum TokenType {
-    SIN, COS, TAN, PLUS, MINUS, MULTI, DIV, POW, L_PAREN, R_PAREN, NUMBER, VAR, PI, E, EOF
+    SIN, COS, TAN, PLUS, MINUS, MULTI, DIV, POW, L_PAR, R_PAR, NUMBER, VAR, PI, E, EOF
 }

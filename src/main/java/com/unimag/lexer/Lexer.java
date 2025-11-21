@@ -28,9 +28,6 @@ public class Lexer {
         }
     }
 
-    /**
-     * Mira el siguiente carácter sin avanzar
-     */
     private char peek() {
         int peekPos = position + 1;
         if (peekPos < input.length()) {
@@ -39,19 +36,12 @@ public class Lexer {
         return '\0';
     }
 
-    /**
-     * Omite espacios en blanco
-     */
     private void skipWhitespace() {
         while (currentChar != '\0' && Character.isWhitespace(currentChar)) {
             advance();
         }
     }
 
-    /**
-     * Lee un número (entero o decimal)
-     * Formatos válidos: 123, 3.14, .5
-     */
     private Token readNumber() {
         int startPos = position;
         StringBuilder number = new StringBuilder();
@@ -102,10 +92,6 @@ public class Lexer {
         return new Token(TokenType.NUMBER, number.toString(), startPos);
     }
 
-    /**
-     * Lee un identificador o palabra reservada
-     * Formato: [a-zA-Z_][a-zA-Z0-9_]*
-     */
     private Token readIdentifier() {
         int startPos = position;
         StringBuilder identifier = new StringBuilder();
@@ -140,9 +126,6 @@ public class Lexer {
         return new Token(TokenType.VAR, id, startPos);
     }
 
-    /**
-     * Obtiene el siguiente token
-     */
     public Token getNextToken() {
         while (currentChar != '\0') {
             // Ignorar espacios en blanco
@@ -182,10 +165,10 @@ public class Lexer {
                     return new Token(TokenType.POW, "^", currentPos);
                 case '(':
                     advance();
-                    return new Token(TokenType.L_PAREN, "(", currentPos);
+                    return new Token(TokenType.L_PAR, "(", currentPos);
                 case ')':
                     advance();
-                    return new Token(TokenType.R_PAREN, ")", currentPos);
+                    return new Token(TokenType.R_PAR, ")", currentPos);
                 default:
                     throw new RuntimeException(
                             String.format("Error léxico en posición %d: carácter desconocido '%c'",
@@ -194,13 +177,9 @@ public class Lexer {
             }
         }
 
-        // Fin de entrada
         return new Token(TokenType.EOF, "", position);
     }
 
-    /**
-     * Tokeniza toda la entrada y devuelve lista de tokens
-     */
     public List<Token> tokenize() {
         List<Token> tokens = new ArrayList<>();
         Token token;
@@ -213,9 +192,6 @@ public class Lexer {
         return tokens;
     }
 
-    /**
-     * Método auxiliar para depuración: imprime todos los tokens
-     */
     public void printTokens() {
         List<Token> tokens = tokenize();
         System.out.println("=== TOKENS ===");
