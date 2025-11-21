@@ -1,9 +1,13 @@
 package com.unimag.parser.astNodes;
 
 import java.util.Map;
+import java.util.Set;
 
+/**
+ * Nodo del AST que representa una variable
+ */
 public class VarNode extends Node {
-    String identifier;
+    private final String identifier;
 
     public VarNode(String identifier) {
         this.identifier = identifier;
@@ -11,8 +15,18 @@ public class VarNode extends Node {
 
     @Override
     public double evaluate(Map<String, Double> env) throws Exception {
-        if (!env.containsKey(identifier)) throw new Exception("Variable " + identifier + " not found");
+        if (!env.containsKey(identifier)) {
+            throw new RuntimeException(
+                String.format("Error semántico: variable '%s' no está definida", identifier)
+            );
+        }
         return env.get(identifier);
+    }
+
+    @Override
+    public void collectVariables(Set<String> vars) {
+        // Agregar esta variable al conjunto
+        vars.add(identifier);
     }
 
     public String getIdentifier() {
