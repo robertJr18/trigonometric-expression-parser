@@ -115,8 +115,7 @@ public class ParserGUI extends JFrame {
             appendOutput("=== FASE 1: TOKENIZACIÓN ===\n");
             Lexer lexer = new Lexer(input);
             List<Token> tokens = lexer.tokenize();
-            int size = tokens.size() - 1;
-            appendOutput("Tokens generados: " + size + "\n");
+            appendOutput("Tokens generados: " + (tokens.size()-1) + "\n");
             for (Token token : tokens) {
                 if (token.type().name().equals("EOF")) continue;
                 appendOutput("  " + token + "\n");
