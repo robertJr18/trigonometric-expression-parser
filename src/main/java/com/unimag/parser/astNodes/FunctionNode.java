@@ -1,31 +1,42 @@
 package com.unimag.parser.astNodes;
 
 import java.util.Map;
+import java.util.Set;
 
 public class FunctionNode extends Node {
-    String name;
-    Node body;
+    private final String name;
+    private final Node argument;
 
-    public FunctionNode(String name, Node body) {
+    public FunctionNode(String name, Node argument) {
         this.name = name;
-        this.body = body;
+        this.argument = argument;
     }
+
     @Override
     public double evaluate(Map<String, Double> env) throws Exception {
-        var arg = body.evaluate(env);
-        switch (name) {
-            case "sin","sen": return Math.sin(arg);
-            case "cos": return Math.cos(arg);
-            case "tan": return Math.tan(arg);
-            default: throw new Exception("Invalid function name");
-        }
+        double arg = argument.evaluate(env);
+
+        return switch (name) {
+            case "sin", "sen" -> Math.sin(arg);
+            case "cos" -> Math.cos(arg);
+            case "tan" -> Math.tan(arg);
+            default -> throw new RuntimeException(
+                String.format("Función desconocida: '%s'", name)
+            );
+        };
+    }
+
+    @Override
+    public void collectVariables(Set<String> vars) {
+        // Recolectar variables del argumento
+        argument.collectVariables(vars);
     }
 
     public String getName() {
         return name;
     }
 
-    public Node getBody() {
-        return body;
+    public Node getArgument() {
+        return argument;
     }
 }

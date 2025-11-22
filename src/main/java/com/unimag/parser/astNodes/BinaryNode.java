@@ -1,12 +1,12 @@
 package com.unimag.parser.astNodes;
 
 import java.util.Map;
+import java.util.Set;
 
-public class BinaryNode extends Node{
-
-    char operator;
-    Node left;
-    Node right;
+public class BinaryNode extends Node {
+    private final char operator;
+    private final Node left;
+    private final Node right;
 
     public BinaryNode(char operator, Node left, Node right) {
         this.operator = operator;
@@ -16,28 +16,33 @@ public class BinaryNode extends Node{
 
     @Override
     public double evaluate(Map<String, Double> env) throws Exception {
-        var l = left.evaluate(env);
-        var r = right.evaluate(env);
+        double l = left.evaluate(env);
+        double r = right.evaluate(env);
 
-        switch (operator) {
-            case '+' -> {
-                return  l + r;
-            }
-            case '-' -> {
-                return  l - r;
-            }
-            case '*' -> {
-                return  l * r;
-            }
+        return switch (operator) {
+            case '+' -> l + r;
+            case '-' -> l - r;
+            case '*' -> l * r;
             case '/' -> {
-                if (r == 0) throw new ArithmeticException("Cannot divide by zero");
-                return  l / r;
+                if (r == 0) {
+                    throw new ArithmeticException(
+                        "Error de ejecución: división por cero"
+                    );
+                }
+                yield l / r;
             }
-            case '^' -> {
-                return  Math.pow(left.evaluate(env), right.evaluate(env));
-            }
-            default -> throw new RuntimeException("Unknown operator " + operator);
-        }
+            case '^' -> Math.pow(l, r);
+            default -> throw new RuntimeException(
+                String.format("Operador desconocido: '%c'", operator)
+            );
+        };
+    }
+
+    @Override
+    public void collectVariables(Set<String> vars) {
+        // Recolectar variables de ambos lados
+        left.collectVariables(vars);
+        right.collectVariables(vars);
     }
 
     public char getOperator() {
