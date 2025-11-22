@@ -11,9 +11,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-/**
- * Interfaz gráfica para el Parser y Evaluador de Expresiones Trigonométricas
- */
 public class ParserGUI extends JFrame {
     
     private JTextField inputField;
@@ -197,9 +194,7 @@ public class ParserGUI extends JFrame {
     }
 }
 
-/**
- * Panel personalizado para dibujar el AST gráficamente
- */
+
 class ASTPanel extends JPanel {
     private Node ast;
     private Map<Node, Point> nodePositions = new HashMap<>();

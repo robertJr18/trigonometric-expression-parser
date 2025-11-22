@@ -117,7 +117,7 @@ public class Parser {
     }
 
     /**
-      U → - U | F
+      U → - U | P
       Parsea operador unario (negación)
      */
     private Node parseUnary() {
@@ -130,7 +130,7 @@ public class Parser {
     }
 
     /**
-      F → P F'
+      F → U F'
       Parsea un factor (base para potencia)
      */
     private Node parseFactor() {
@@ -139,7 +139,7 @@ public class Parser {
     }
 
     /**
-      F' → ^ U | ε
+      F' → ^ F | ε
       Parsea potencia (asociatividad DERECHA - CRÍTICO)
      */
     private Node parseFactorPrime(Node left) {
